@@ -1,0 +1,38 @@
+[
+  {
+    "controles": 16,
+    "separacionMinima": {
+      "sep": 8,
+      "a": "Cobrar",
+      "b": "Marcar entregado"
+    },
+    "vista": "Salon"
+  },
+  {
+    "controles": 9,
+    "separacionMinima": {
+      "sep": 10,
+      "a": "submit",
+      "b": "SALIR"
+    },
+    "vista": "Libro de caja"
+  },
+  {
+    "controles": 20,
+    "separacionMinima": {
+      "sep": 6,
+      "a": "Hoy",
+      "b": "Ayer"
+    },
+    "vista": "Historial de ventas"
+  },
+  {
+    "controles": 83,
+    "separacionMinima": {
+      "sep": 6,
+      "a": "Sitio",
+      "b": "Menú"
+    },
+    "vista": "Administracion del menu"
+  }
+]

@@ -1,0 +1,24 @@
+# Entorno
+.env
+backend/.venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/**/migrations/__pycache__/
+*.pyc
+
+# Medios subidos (imágenes de configuración y de platos) — no van al control
+# de versiones, cada instancia tiene los suyos
+backend/media/
+backend/staticfiles/
+
+# Node / Vue (cuando arranque el panel de admin)
+node_modules/
+dist/
+
+# Editor / SO
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local de Claude Code
+.claude/settings.local.json

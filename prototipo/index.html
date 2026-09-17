@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terra — Menú</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,300;6..96,400&family=Sofia+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ============ BARRA SUPERIOR ============ -->
+<header class="topbar" id="topbar">
+  <div class="topbar__inner">
+    <a href="#" class="topbar__logo">Terra</a>
+    <a href="#encuentranos" class="topbar__find">Encuéntranos</a>
+  </div>
+</header>
+
+<!-- ============ HERO ============
+     .hero-scroll da el RECORRIDO del parallax (200vh de scroll);
+     .hero se queda fijo dentro de él ocupando el 100% de la pantalla. -->
+<div class="hero-scroll" id="heroScroll">
+  <section class="hero" id="hero">
+    <div class="hero__bg" id="heroBg"></div>
+    <div class="hero__scrim"></div>
+    <div class="hero__content" id="heroContent">
+      <p class="hero__eyebrow">Mesa 12 · Chapinero</p>
+      <h1 class="hero__title">Terra</h1>
+      <p class="hero__subtitle">Cocina de fuego y raíz. Ingredientes locales, brasa lenta, sabor de casa.</p>
+      <a href="#menu" class="hero__cta">
+        Ver el menú
+        <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M12 5v14M12 19l-6-6M12 19l6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      </a>
+    </div>
+
+    <!-- Señal de que hay más contenido abajo -->
+    <div class="hero__cue" id="heroCue" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="26" height="26"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+    </div>
+  </section>
+</div>
+
+<!-- ============ MENÚ ============ -->
+<main id="menu">
+  <div class="filters" id="filters">
+    <div class="filters__inner" id="filtersInner"></div>
+  </div>
+
+  <section class="menu-section">
+    <div class="menu-grid" id="menuGrid"></div>
+  </section>
+</main>
+
+<!-- ============ ENCUÉNTRANOS ============ -->
+<section class="find" id="encuentranos">
+  <div class="find__header">
+    <p class="find__eyebrow">Visítanos</p>
+    <h2 class="find__title">Encuéntranos</h2>
+  </div>
+
+  <div class="find__gallery">
+    <figure class="find__photo find__photo--wide">
+      <img src="assets/lugar-salon.jpg" alt="El salón principal">
+      <figcaption>El salón</figcaption>
+    </figure>
+    <figure class="find__photo">
+      <img src="assets/lugar-barra.jpg" alt="La barra">
+      <figcaption>La barra</figcaption>
+    </figure>
+    <figure class="find__photo">
+      <img src="assets/lugar-terraza.jpg" alt="La terraza">
+      <figcaption>La terraza</figcaption>
+    </figure>
+  </div>
+
+  <div class="find__grid">
+    <div class="find__block">
+      <h3>Dirección</h3>
+      <p>Calle 79 # 11 – 32<br>Chapinero, Bogotá</p>
+      <a href="#" class="find__link">Abrir en Maps</a>
+    </div>
+    <div class="find__block">
+      <h3>Horario</h3>
+      <ul class="find__hours">
+        <li><span>Lun – Jue</span><span>12:00 – 22:00</span></li>
+        <li><span>Vie – Sáb</span><span>12:00 – 23:30</span></li>
+        <li><span>Domingo</span><span>12:00 – 21:00</span></li>
+      </ul>
+    </div>
+    <div class="find__block">
+      <h3>Contacto</h3>
+      <p>+57 300 123 4567<br>hola@terra.com</p>
+      <a href="#" class="find__link">Escríbenos · PQRSF</a>
+    </div>
+    <div class="find__block">
+      <h3>Cómo llegar</h3>
+      <div class="find__map"></div>
+    </div>
+  </div>
+
+  <footer class="find__footer">
+    <p>© 2026 Terra · Prototipo de referencia visual</p>
+  </footer>
+</section>
+
+<!-- ============ CARRITO FLOTANTE (visual) ============ -->
+<button class="cart" id="cartBtn" type="button">
+  Ver pedido
+  <span class="cart__count" id="cartCount">0</span>
+</button>
+
+<div class="proto-tag" id="protoTag">Prototipo · Fase 0</div>
+
+<!-- ============ MODAL DEL PEDIDO ============
+     Vista previa antes de generar el QR (SPEC-002). Sin pagos: el pedido
+     lo confirma el mesero al escanear (ADR-002). -->
+<dialog class="pedido" id="pedidoModal" aria-labelledby="pedidoTitulo">
+  <div class="pedido__panel">
+
+    <header class="pedido__head">
+      <div>
+        <p class="pedido__eyebrow">Mesa 12 · Chapinero</p>
+        <h2 class="pedido__title" id="pedidoTitulo">Tu pedido</h2>
+      </div>
+      <button class="pedido__close" id="pedidoClose" type="button" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+      </button>
+    </header>
+
+    <div class="pedido__body">
+      <ul class="pedido__items" id="pedidoItems"></ul>
+
+      <div class="pedido__comentario" id="pedidoComentario">
+        <label for="comentarioGeneral">Comentario para la cocina</label>
+        <textarea id="comentarioGeneral" maxlength="200"
+                  placeholder="Alergias, preferencias, algo que debamos saber…"></textarea>
+        <span class="pedido__contador" id="contadorComentario">0 / 200</span>
+      </div>
+    </div>
+
+    <footer class="pedido__foot">
+      <div class="pedido__total">
+        <span>Total</span>
+        <b id="pedidoTotal">$ 0</b>
+      </div>
+      <button class="pedido__cta" id="pedidoCta" type="button">
+        <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z" fill="currentColor"/></svg>
+        Generar QR del pedido
+      </button>
+      <p class="pedido__nota-pie">Tu mesero escaneará este código para confirmar el pedido.</p>
+    </footer>
+
+  </div>
+</dialog>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

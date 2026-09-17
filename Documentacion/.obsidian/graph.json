@@ -1,0 +1,44 @@
+{
+  "collapse-filter": false,
+  "search": "",
+  "showTags": true,
+  "showAttachments": false,
+  "colorGroups": [
+    {
+      "query": "path:02-Especificaciones",
+      "color": {
+        "a": 1,
+        "rgb": 2201331
+      }
+    },
+    {
+      "query": "path:03-Decisiones",
+      "color": {
+        "a": 1,
+        "rgb": 15134003
+      }
+    },
+    {
+      "query": "path:04-Diseno",
+      "color": {
+        "a": 1,
+        "rgb": 15132757
+      }
+    },
+    {
+      "query": "path:05-Investigacion",
+      "color": {
+        "a": 1,
+        "rgb": 5741158
+      }
+    },
+    {
+      "query": "path:06-Bitacora",
+      "color": {
+        "a": 1,
+        "rgb": 12300517
+      }
+    }
+  ],
+  "scale": 1
+}

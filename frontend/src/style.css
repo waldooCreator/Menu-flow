@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Puente de tokens: Sistema de Diseño → Tailwind
+   --------------------------------------------------------------------------
+   Los colores y tipografías del CLIENTE son parametrizables por restaurante
+   (SPEC-007): viven en la base de datos y se aplican en tiempo de ejecución
+   sobre :root desde `aplicarTemaCliente()`. Tailwind compila estático, así
+   que los tokens apuntan a variables CSS — la clase `bg-marca` se resuelve
+   a lo que el restaurante tenga configurado, sin recompilar nada.
+
+   Las pantallas INTERNAS (mesero, estación, admin) usan tokens fijos, no la
+   paleta del restaurante: una pantalla de cocina debe leerse de un vistazo,
+   y heredar una paleta configurable arbitraria es un riesgo de legibilidad.
+   ========================================================================== */
+
+/* Valores por defecto — lo que se ve antes de que responda la API.
+   Deliberadamente neutros: si el restaurante configura otra paleta, el salto
+   es de un crema a otro, no de blanco brillante a color (ADR-006). */
+:root {
+  --c-bg: #F4F3E7;
+  --c-bg-alt: #EBE9DA;
+  --c-ink: #0E150E;
+  --c-brand: #00473C;
+  --c-brand-soft: #D8E5D6;
+  --c-accent: #E6FF55;
+  --f-sans: "Sofia Sans";
+  --f-display: "Bodoni Moda";
+}
+
+@theme {
+  /* --- Marca del restaurante (dinámica) --- */
+  --color-lienzo: var(--c-bg);
+  --color-lienzo-alt: var(--c-bg-alt);
+  --color-tinta: var(--c-ink);
+  --color-marca: var(--c-brand);
+  --color-marca-suave: var(--c-brand-soft);
+  --color-acento: var(--c-accent);
+
+  /* --- Interno (fijo, no configurable) --- */
+  --color-panel: #F7F7F5;
+  --color-panel-alt: #EFEFEC;
+  --color-panel-borde: #E0E0DB;
+  --color-panel-tinta: #1A1D1A;
+  --color-panel-marca: #00473C;
+  --color-alerta: #B00020;
+
+  /* --- Tipografía --- */
+  --font-sans: var(--f-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--f-display), Georgia, Cambria, "Times New Roman", serif;
+
+  /* --- Geometría (Sistema de Diseño: radio 20px en fotos, píldora en controles) --- */
+  --radius-foto: 20px;
+
+  /* --- Movimiento --- */
+  --ease-suave: cubic-bezier(0.22, 0.68, 0, 1);
+}
+
+/* ==========================================================================
+   Toque minimo (SPEC-022, regla 4)
+   --------------------------------------------------------------------------
+   Todo lo tocable mide 44px o mas. La auditoria del 2026-09-08 encontro
+   ~430 de 500 controles por debajo — el panel de administracion se diseño
+   con densidad de escritorio y nunca se reviso en telefono. Una regla comun
+   en vez de tocar 344 controles uno a uno: lo que no declara altura la
+   recibe aqui; lo que la declara (min-h-*) manda por especificidad.
+
+   Las casillas y radios se excluyen a proposito: su dibujo se queda pequeño
+   y el area de toque la da el <label> o <span> que las envuelve.
+   ========================================================================== */
+@layer base {
+  button,
+  select,
+  textarea,
+  input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]) {
+    min-height: 2.75rem; /* 44px */
+  }
+}
+
+/* ==========================================================================
+   Comportamientos que Tailwind no expresa: animaciones ligadas al scroll y
+   keyframes. Se mantienen mínimos y con nombre propio.
+   ========================================================================== */
+
+/* El hero se queda fijo mientras se recorre su contenedor alto — da el
+   recorrido largo del parallax (Modelo de Página del Cliente §hero). */
+.hero-fijo {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100lvh; /* lvh, no dvh: dvh deja asomar una franja bajo el hero */
+}
+
+/* Flecha que incita a bajar: sustituye la señal que antes daba el borde del
+   menú asomando, ahora que el hero ocupa la pantalla completa. */
+@keyframes latido-flecha {
+  0%, 100% { transform: translateY(0); opacity: 0.55; }
+  50% { transform: translateY(10px); opacity: 1; }
+}
+.flecha-scroll { animation: latido-flecha 2s var(--ease-suave) infinite; }
+
+/* Entrada lateral con profundidad: los elementos salen del horizonte,
+   difuminados y lejanos, y al llegar se enfocan. La dirección la asigna
+   el composable `useEntradaLateral` según dónde queda cada elemento. */
+.entrada {
+  opacity: 0;
+  will-change: transform, opacity, filter;
+  transition:
+    opacity 1000ms var(--ease-suave),
+    transform 1000ms var(--ease-suave),
+    filter 1000ms var(--ease-suave);
+}
+.entrada--izq { transform: translateX(-90px) scale(0.9); filter: blur(14px); }
+.entrada--der { transform: translateX(90px) scale(0.9); filter: blur(14px); }
+.entrada--centro { transform: translateX(34px) scale(0.86); filter: blur(22px); }
+.entrada--visible { opacity: 1; transform: none; filter: blur(0); }
+/* Al terminar se retira el blur: mantenerlo activo deja capas compuestas caras */
+.entrada--asentada { filter: none; will-change: auto; }
+
+/* Mientras se asigna el estado inicial, la transición debe estar apagada:
+   si no, el elemento ya pintado se ve desvanecerse y produce un parpadeo. */
+.preparando .entrada { transition: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .hero-fijo { position: relative; }
+  .flecha-scroll { display: none; }
+  .entrada,
+  .entrada--izq,
+  .entrada--der,
+  .entrada--centro {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}

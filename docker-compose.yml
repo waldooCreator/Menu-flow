@@ -1,0 +1,29 @@
+# Postgres local para desarrollo (ADR-006).
+#
+# No se fija `container_name`: el nombre del proyecto lo da la carpeta o
+# COMPOSE_PROJECT_NAME, para que varias instancias del sistema (una por
+# restaurante, SPEC-009) puedan convivir en el mismo VPS sin chocar nombres.
+#
+# El puerto y las credenciales salen de .env — cada instancia futura define
+# los suyos.
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT:-5433}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  db_data:
