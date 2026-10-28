@@ -14,16 +14,12 @@
   <img src="https://img.shields.io/badge/Vite-8-1a1b26?style=for-the-badge&logo=vite&logoColor=e0af68&labelColor=24283b" alt="Vite 8">
   <img src="https://img.shields.io/badge/Tailwind-v4-1a1b26?style=for-the-badge&logo=tailwindcss&logoColor=e0af68&labelColor=24283b" alt="Tailwind CSS v4">
   <img src="https://img.shields.io/badge/PostgreSQL-16-1a1b26?style=for-the-badge&logo=postgresql&logoColor=e0af68&labelColor=24283b" alt="PostgreSQL 16">
-  <br>
-  <img src="https://img.shields.io/badge/specs-25-1a1b26?style=for-the-badge&logo=obsidian&logoColor=e0af68&labelColor=24283b" alt="25 specs">
-  <img src="https://img.shields.io/badge/ADRs-9-1a1b26?style=for-the-badge&logo=obsidian&logoColor=e0af68&labelColor=24283b" alt="9 ADRs">
-  <img src="https://img.shields.io/badge/backend_tests-228-1a1b26?style=for-the-badge&logo=python&logoColor=e0af68&labelColor=24283b" alt="228 backend tests">
 </p>
 
 <p align="center">
   <img src="docs/readme/hero-client-menu.jpg" width="90%" alt="Customer landing page of the demo restaurant, with the table already identified from its QR code">
   <br>
-  <sub>Customer page of the demo restaurant (Phase 0 visual prototype; the Vue app ports this design and reads every text, color and image from configuration).</sub>
+  <sub><b>Brand A:</b> customer page of a demo restaurant, from the Phase 0 visual prototype. The Vue app ports this design and reads every text, color and image from configuration.</sub>
 </p>
 
 ---
@@ -39,11 +35,11 @@ The customer scans the QR on the table, builds an order on their phone and gets 
   </tr>
   <tr>
     <td width="50%"><img src="docs/readme/step-3-kitchen-board.png" alt="Kitchen board with three columns"><br><b>3 · Station board.</b> Each station only receives its own items, with notes like "no onion".</td>
-    <td width="50%"><img src="docs/readme/step-4-ready-notification.png" alt="Waiter notification that the order is ready"><br><b>4 · Ready → delivered.</b> The waiter's bell shows which station finished and for which table.</td>
+    <td width="50%"><img src="docs/readme/step-4-mark-delivered.png" alt="Waiter's in-progress order with the Mark delivered button"><br><b>4 · Ready → delivered.</b> The waiter's bell says which station finished, and the waiter closes the loop with <i>Mark delivered</i>.</td>
   </tr>
 </table>
 
-<sub>Screens from the Vue app, shown with an alternate demo theme. Changing the brand is a configuration change, not a code change.</sub>
+<p align="center"><b>One codebase, any brand.</b> The hero above is <b>Brand A</b>; these screens run the Vue app with <b>Brand B</b>, a second demo theme. Name, palette, fonts and images come from configuration, so switching brands needs no code change and no rebuild.</p>
 
 ## Features
 
@@ -71,10 +67,11 @@ The customer scans the QR on the table, builds an order on their phone and gets 
 
 The project is built with **Spec Driven Development**: the spec is the source of truth and the code implements it. All the context lives in an Obsidian vault in [`Documentacion/`](Documentacion/).
 
-| | |
+| Artifact | What it holds |
 |---|---|
 | **25 specs** | Purpose, scope, out of scope, behaviour and verifiable acceptance criteria. 22 implemented, 2 drafts and 1 approved that is waiting for a real server. The code references them (`# SPEC-005`). |
 | **9 ADRs** | Architecture decisions with the options that were rejected: signed QR, waiter confirmation, one database per restaurant, READY ≠ DELIVERED, JS QR scanning, stack, events over edits, row locking, promotions as dishes. |
+| **228 backend tests** | Django test cases for orders, sales and cash, menu, customers and roles, run with `python manage.py test`. |
 | **Daily log** | 38 entries recording what was built, which bugs showed up, and why. |
 | **Stress test** | 3 waiters, 2 cooks and 50 customers over 11 minutes: 2,799 requests with **0 server errors**, p95 ≤ 285 ms on the dev server. Two cooks grabbing the same ticket got a `409`, a double tap on *Charge* produced a single charge, and deliberate cash shortages were detected to the peso. One defect was found and fixed the same day. |
 
@@ -126,14 +123,14 @@ sequenceDiagram
 
 | Layer | Tools |
 |---|---|
-| **Backend** | Python 3.11, Django 5.0, Django REST Framework, django-filter, django-cors-headers, Pillow, python-dotenv |
+| **Backend** | Python 3.11, Django 5.0, Django REST Framework, django-filter, django-cors-headers, Pillow, python-dotenv, psycopg 3 |
 | **Frontend** | Vue 3.5 (`<script setup>`), Vite 8, Vue Router, Pinia, Tailwind CSS v4, Axios, Chart.js |
 | **QR** | `qrcode` (generate), `qr-scanner` (camera, Web Worker), `jsQR` (from image), `django.core.signing` (sign and verify) |
 | **Data** | PostgreSQL 16 via Docker Compose (database only; Django and Vite run natively) |
 
 ## Getting started
 
-**Requirements:** Python 3.11+, Node.js 20+ (developed on 24), Docker.
+**Requirements:** Python 3.11 or 3.12, Node.js 20.19+ or 22.12+ (developed on 24), Docker.
 
 ```bash
 # 1. Environment and database

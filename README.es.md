@@ -14,16 +14,12 @@
   <img src="https://img.shields.io/badge/Vite-8-1a1b26?style=for-the-badge&logo=vite&logoColor=e0af68&labelColor=24283b" alt="Vite 8">
   <img src="https://img.shields.io/badge/Tailwind-v4-1a1b26?style=for-the-badge&logo=tailwindcss&logoColor=e0af68&labelColor=24283b" alt="Tailwind CSS v4">
   <img src="https://img.shields.io/badge/PostgreSQL-16-1a1b26?style=for-the-badge&logo=postgresql&logoColor=e0af68&labelColor=24283b" alt="PostgreSQL 16">
-  <br>
-  <img src="https://img.shields.io/badge/specs-25-1a1b26?style=for-the-badge&logo=obsidian&logoColor=e0af68&labelColor=24283b" alt="25 specs">
-  <img src="https://img.shields.io/badge/ADRs-9-1a1b26?style=for-the-badge&logo=obsidian&logoColor=e0af68&labelColor=24283b" alt="9 ADR">
-  <img src="https://img.shields.io/badge/pruebas_backend-228-1a1b26?style=for-the-badge&logo=python&logoColor=e0af68&labelColor=24283b" alt="228 pruebas del backend">
 </p>
 
 <p align="center">
   <img src="docs/readme/hero-client-menu.jpg" width="90%" alt="Portada del restaurante de demostración, con la mesa ya identificada por su QR">
   <br>
-  <sub>Página del cliente del restaurante de demostración (prototipo visual de la Fase 0; la app en Vue porta este diseño y lee cada texto, color e imagen desde la configuración).</sub>
+  <sub><b>Marca A:</b> página del cliente de un restaurante de demostración, del prototipo visual de la Fase 0. La app en Vue porta este diseño y lee cada texto, color e imagen desde la configuración.</sub>
 </p>
 
 ---
@@ -39,11 +35,11 @@ El cliente escanea el QR de la mesa, arma su pedido en el celular y obtiene un *
   </tr>
   <tr>
     <td width="50%"><img src="docs/readme/step-3-kitchen-board.png" alt="Tablero de cocina con tres columnas"><br><b>3 · Tablero de estación.</b> Cada estación recibe solo lo suyo, con observaciones como "sin cebolla".</td>
-    <td width="50%"><img src="docs/readme/step-4-ready-notification.png" alt="Aviso al mesero de que el pedido está listo"><br><b>4 · Listo → entregado.</b> La campana del mesero dice qué estación terminó y de qué mesa.</td>
+    <td width="50%"><img src="docs/readme/step-4-mark-delivered.png" alt="Pedido en curso del mesero con el botón Marcar entregado"><br><b>4 · Listo → entregado.</b> La campana del mesero dice qué estación terminó, y el mesero cierra el ciclo con <i>Marcar entregado</i>.</td>
   </tr>
 </table>
 
-<sub>Pantallas de la app en Vue, con un tema de demostración alterno. Cambiar de marca es un cambio de configuración, no de código.</sub>
+<p align="center"><b>Un solo código, cualquier marca.</b> La portada de arriba es la <b>Marca A</b>; estas pantallas son la app en Vue con la <b>Marca B</b>, un segundo tema de demostración. Nombre, paleta, fuentes e imágenes salen de la configuración, así que cambiar de marca no exige tocar código ni recompilar.</p>
 
 ## Funcionalidades
 
@@ -71,10 +67,11 @@ El cliente escanea el QR de la mesa, arma su pedido en el celular y obtiene un *
 
 El proyecto se construye con **Spec Driven Development**: la especificación es la fuente de verdad y el código es su implementación. Todo el contexto vive en una bóveda de Obsidian en [`Documentacion/`](Documentacion/).
 
-| | |
+| Artefacto | Qué contiene |
 |---|---|
 | **25 specs** | Propósito, alcance, fuera de alcance, comportamiento y criterios de aceptación verificables. 22 implementadas, 2 en borrador y 1 aprobada que espera un servidor real. El código las referencia (`# SPEC-005`). |
 | **9 ADR** | Decisiones de arquitectura con las opciones descartadas: QR firmado, confirmación del mesero, una base por restaurante, LISTO ≠ ENTREGADO, escaneo con librería JS, stack, eventos en vez de ediciones, bloqueo de fila, promociones como platos. |
+| **228 pruebas del backend** | Casos de prueba de Django para pedidos, ventas y caja, menú, clientes y roles; se corren con `python manage.py test`. |
 | **Bitácora** | 38 entradas que registran qué se construyó, qué defectos aparecieron y por qué. |
 | **Prueba de estrés** | 3 meseros, 2 cocineros y 50 clientes durante 11 minutos: 2.799 peticiones con **0 errores del servidor** y p95 ≤ 285 ms en el servidor de desarrollo. Dos cocineros que tomaron la misma comanda recibieron un `409`, un doble toque en *Cobrar* produjo un solo cobro, y los descuadres puestos a propósito se detectaron al peso. Apareció un defecto y se corrigió el mismo día. |
 
@@ -126,14 +123,14 @@ sequenceDiagram
 
 | Capa | Herramientas |
 |---|---|
-| **Backend** | Python 3.11, Django 5.0, Django REST Framework, django-filter, django-cors-headers, Pillow, python-dotenv |
+| **Backend** | Python 3.11, Django 5.0, Django REST Framework, django-filter, django-cors-headers, Pillow, python-dotenv, psycopg 3 |
 | **Frontend** | Vue 3.5 (`<script setup>`), Vite 8, Vue Router, Pinia, Tailwind CSS v4, Axios, Chart.js |
 | **QR** | `qrcode` (generar), `qr-scanner` (cámara, Web Worker), `jsQR` (desde imagen), `django.core.signing` (firmar y verificar) |
 | **Datos** | PostgreSQL 16 con Docker Compose (solo la base; Django y Vite corren nativos) |
 
 ## Cómo empezar
 
-**Requisitos:** Python 3.11+, Node.js 20+ (desarrollado con 24), Docker.
+**Requisitos:** Python 3.11 o 3.12, Node.js 20.19+ o 22.12+ (desarrollado con 24), Docker.
 
 ```bash
 # 1. Entorno y base de datos
